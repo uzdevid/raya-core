@@ -31,17 +31,23 @@ jobs:
             if [ ! -d ".git" ]; then
               echo "[3/7] Clone repository if not exists"
               git clone git@github.com:uzdevid/${{ github.event.repository.name }} ./
+
+              echo "[4/7] Copy template files"
+              cp /home/template/entrypoint.sh $DEPLOY_DIR/entrypoint.sh
+              cp /home/template/Dockerfile $DEPLOY_DIR/Dockerfile
+              cp /home/template/rr.exe $DEPLOY_DIR/rr.exe
+              cp /home/template/supervisord.conf $DEPLOY_DIR/supervisord.conf
             else
+              echo "[4/7] Copy template files"
+              cp /home/template/entrypoint.sh $DEPLOY_DIR/entrypoint.sh
+              cp /home/template/Dockerfile $DEPLOY_DIR/Dockerfile
+              cp /home/template/rr.exe $DEPLOY_DIR/rr.exe
+              cp /home/template/supervisord.conf $DEPLOY_DIR/supervisord.conf
+
               echo "[3/7] Pull latest code..."
               git reset --hard HEAD
               git pull origin main
             fi
-
-            echo "[4/7] Copy template files"
-            cp /home/template/entrypoint.sh $DEPLOY_DIR/entrypoint.sh
-            cp /home/template/Dockerfile $DEPLOY_DIR/Dockerfile
-            cp /home/template/rr.exe $DEPLOY_DIR/rr.exe
-            cp /home/template/supervisord.conf $DEPLOY_DIR/supervisord.conf
 
             echo "[4/7] Set entrypoint.sh as executable"
             chmod +x $DEPLOY_DIR/entrypoint.sh
