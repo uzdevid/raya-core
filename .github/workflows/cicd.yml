@@ -28,9 +28,6 @@ jobs:
             mkdir -p "$DEPLOY_DIR"
             cd "$DEPLOY_DIR"
 
-            echo "[2/7] Set entrypoint.sh as executable"
-            chmod +x $DEPLOY_DIR/entrypoint.sh
-
             if [ ! -d ".git" ]; then
               echo "[3/7] Clone repository if not exists"
               git clone git@github.com:uzdevid/${{ github.event.repository.name }} ./
@@ -45,6 +42,9 @@ jobs:
             cp /home/template/Dockerfile $DEPLOY_DIR/Dockerfile
             cp /home/template/rr.exe $DEPLOY_DIR/rr.exe
             cp /home/template/supervisord.conf $DEPLOY_DIR/supervisord.conf
+
+            echo "[4/7] Set entrypoint.sh as executable"
+            chmod +x $DEPLOY_DIR/entrypoint.sh
 
             echo "[5/7] Down all services..."
             docker compose down -v
