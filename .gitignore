@@ -36,5 +36,3 @@ tests/Support/Data/database.db_snapshot
 
 .env
 rr.exe
-Dockerfile
-supervisord.conf
