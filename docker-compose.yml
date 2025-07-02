@@ -9,7 +9,7 @@ services:
       VAULT_ADDR: ${VAULT_ADDR}
       VAULT_TOKEN: ${VAULT_ROOT_TOKEN}
     ports:
-      - "8001:80"
+      - "8100:8080"
     networks:
       - monitoring
       - vaultnet

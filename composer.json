@@ -55,7 +55,8 @@
         "yiisoft/yii-http": "^1.0",
         "yiisoft/yii-middleware": "^1.0",
         "yiisoft/yii-runner-console": "^2.0",
-        "yiisoft/yii-runner-http": "^2.0"
+        "yiisoft/yii-runner-http": "^2.0",
+        "yiisoft/yii-runner-roadrunner": "^3.0"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.7",
