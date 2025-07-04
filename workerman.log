@@ -1,0 +1,17 @@
+2025-07-04 14:53:06 pid:1 OpenAI\Exceptions\ErrorException: You must provide the 'OpenAI-Beta' header to access the Assistants API. Please try again by setting the header 'OpenAI-Beta: assistants=v2'. in P:\php\uzdevid\Raya\Raya.Core\vendor\openai-php\client\src\Transporters\HttpTransporter.php:133
+Stack trace:
+#0 P:\php\uzdevid\Raya\Raya.Core\vendor\openai-php\client\src\Transporters\HttpTransporter.php(57): OpenAI\Transporters\HttpTransporter->throwIfJsonError()
+#1 P:\php\uzdevid\Raya\Raya.Core\vendor\openai-php\client\src\Resources\Threads.php(35): OpenAI\Transporters\HttpTransporter->requestObject()
+#2 P:\php\uzdevid\Raya\Raya.Core\src\Service\Brain\AssistantBrain.php(26): OpenAI\Resources\Threads->create()
+#3 P:\php\uzdevid\Raya\Raya.Core\src\Application\Websocket\Event\OnConnect.php(10): App\Service\Brain\AssistantBrain->createThread()
+#4 P:\php\uzdevid\Raya\Raya.Core\src\Application\Websocket\Application.php(50): App\Application\Websocket\Event\OnConnect->handle()
+#5 P:\php\uzdevid\Raya\Raya.Core\vendor\workerman\workerman\src\Protocols\Websocket.php(505): App\Application\Websocket\Application::App\Application\Websocket\{closure}()
+#6 P:\php\uzdevid\Raya\Raya.Core\vendor\workerman\workerman\src\Protocols\Websocket.php(98): Workerman\Protocols\Websocket::dealHandshake()
+#7 P:\php\uzdevid\Raya\Raya.Core\vendor\workerman\workerman\src\Connection\TcpConnection.php(711): Workerman\Protocols\Websocket::input()
+#8 P:\php\uzdevid\Raya\Raya.Core\vendor\workerman\workerman\src\Events\Select.php(406): Workerman\Connection\TcpConnection->baseRead()
+#9 P:\php\uzdevid\Raya\Raya.Core\vendor\workerman\workerman\src\Worker.php(1613): Workerman\Events\Select->run()
+#10 P:\php\uzdevid\Raya\Raya.Core\vendor\workerman\workerman\src\Worker.php(1528): Workerman\Worker::forkWorkersForWindows()
+#11 P:\php\uzdevid\Raya\Raya.Core\vendor\workerman\workerman\src\Worker.php(594): Workerman\Worker::forkWorkers()
+#12 P:\php\uzdevid\Raya\Raya.Core\src\Application\Websocket\WebSocketRunner.php(80): Workerman\Worker::runAll()
+#13 P:\php\uzdevid\Raya\Raya.Core\ws(20): App\Application\Websocket\WebSocketRunner->run()
+#14 {main}

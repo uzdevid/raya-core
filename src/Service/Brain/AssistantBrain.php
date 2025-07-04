@@ -16,15 +16,18 @@ class AssistantBrain implements BrainInterface {
             ->withApiKey($_ENV['OPENAI_API_KEY'])
             ->withHttpClient(new \GuzzleHttp\Client([
                 'proxy' => "http://gMeB2Z:6oKXGG@45.4.199.73:8000",
-                'verify' => false, // если есть ошибки SSL, можно временно отключить
                 'timeout' => 60,
                 'connect_timeout' => 20,
+                'headers' => [
+                    'OpenAI-Beta' => 'assistants=v2',
+                ],
             ]))
             ->make();
     }
 
     public function createThread(): void {
         self::$thread = $this->client->threads()->create();
+        print "Thread created with ID: " . self::$thread->id . PHP_EOL;
     }
 
     public function reflection(string $query): string {
