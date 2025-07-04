@@ -2,7 +2,6 @@
 
 namespace App\Service\Brain;
 
-use GuzzleHttp\Client as GuzzleClient;
 use OpenAI;
 use OpenAI\Client;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
@@ -15,10 +14,11 @@ class AssistantBrain implements BrainInterface {
     public function __construct() {
         $this->client = OpenAI::factory()
             ->withApiKey($_ENV['OPENAI_API_KEY'])
-            ->withHttpClient(new GuzzleClient([
+            ->withHttpClient(new \GuzzleHttp\Client([
                 'proxy' => "https://GfxXEV:eknThT@38.153.3.24:8000",
-                'timeout' => 5,
-                'connect_timeout' => 2,
+                'verify' => false, // если есть ошибки SSL, можно временно отключить
+                'timeout' => 60,
+                'connect_timeout' => 20,
             ]))
             ->make();
     }
