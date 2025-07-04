@@ -10,7 +10,7 @@ require_once __DIR__ . '/autoload.php';
 $runner = new WebSocketRunner(
     address: 'websocket://0.0.0.0:8080',
     name: 'Raya.Core',
-    workersCount: 1,
+    workersCount: 10,
     rootPath: __DIR__,
     debug: $_ENV['YII_DEBUG'],
     checkEvents: $_ENV['YII_DEBUG'],
