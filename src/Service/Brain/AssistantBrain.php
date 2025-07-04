@@ -15,7 +15,7 @@ class AssistantBrain implements BrainInterface {
         $this->client = OpenAI::factory()
             ->withApiKey($_ENV['OPENAI_API_KEY'])
             ->withHttpClient(new \GuzzleHttp\Client([
-                'proxy' => "https://GfxXEV:eknThT@38.153.3.24:8000",
+                'proxy' => "http://gMeB2Z:6oKXGG@45.4.199.73:8000",
                 'verify' => false, // если есть ошибки SSL, можно временно отключить
                 'timeout' => 60,
                 'connect_timeout' => 20,
