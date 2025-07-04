@@ -14,14 +14,14 @@ use App\Application\Websocket\Event\OnWorkerExit;
 use App\Application\Websocket\Event\OnWorkerExitInterface;
 use App\Application\Websocket\Storage\ClientCollection;
 use App\Application\Websocket\Storage\ClientCollectionInterface;
+use App\Service\Brain\AssistantBrain;
 use App\Service\Brain\BrainInterface;
-use App\Service\Brain\OpenAiBrain;
 
 return [
     ApplicationInterface::class => Application::class,
     ClientCollectionInterface::class => ClientCollection::class,
     //
-    BrainInterface::class => OpenAiBrain::class,
+    BrainInterface::class => AssistantBrain::class,
     //
     OnConnectInterface::class => OnConnect::class,
     OnMessageInterface::class => OnMessage::class,
