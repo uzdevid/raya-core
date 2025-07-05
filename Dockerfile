@@ -14,8 +14,7 @@ COPY . .
 
 RUN mkdir -p runtime/logs
 
-RUN composer install --no-dev --optimize-autoloader \
-    && ./vendor/bin/rr get
+RUN composer install --no-dev --optimize-autoloader
 
 COPY ./supervisord.conf /etc/supervisor/supervisord.conf
 
