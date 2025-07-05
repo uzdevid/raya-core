@@ -2,11 +2,17 @@
 
 namespace App\Application\Websocket\Event;
 
-use Workerman\Connection\TcpConnection;
+use App\Application\Websocket\Storage\Client;
+use App\Repository\ClientRepositoryInterface;
 
-class OnClose implements OnCloseInterface {
+readonly class OnClose implements OnCloseInterface {
 
-    public function handle(TcpConnection $connection): void {
-        // TODO: Implement handle() method.
+    public function __construct(
+        private ClientRepositoryInterface $clientRepository
+    ) {
+    }
+
+    public function handle(Client $client): void {
+        $this->clientRepository->updateOnline($client->id, false);
     }
 }

@@ -2,23 +2,15 @@
 
 namespace App\Service\Brain;
 
+use App\Application\Websocket\Storage\Client;
+
 interface BrainInterface {
+    public function init(Client $client): void;
+
     /**
+     * @param Client $client
      * @param string $query
      * @return string
      */
-    public function reflection(string $query): string;
-
-    /**
-     * @param string $question
-     * @param string $answer
-     * @return string
-     */
-    public function answer(string $question, string $answer): string;
-
-    /**
-     * @param string $query
-     * @return string
-     */
-    public function reReflection(string $query): string;
+    public function reflection(Client $client, string $query): string;
 }

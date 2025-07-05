@@ -2,50 +2,52 @@
 
 namespace App\Service\Brain;
 
-use OpenAI;
+use App\Application\Websocket\Storage\ClientCollectionInterface;
+use App\Exception\NotFoundException;
+use App\Model\Assistant;
 use OpenAI\Client;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
 
-class AssistantBrain implements BrainInterface {
-    private static ThreadResponse $thread;
-    private Client $client;
-
-    public function __construct() {
-        $this->client = OpenAI::factory()
-            ->withApiKey($_ENV['OPENAI_API_KEY'])
-            ->withHttpClient(new \GuzzleHttp\Client([
-                'proxy' => "http://gMeB2Z:6oKXGG@45.4.199.73:8000",
-                'timeout' => 60,
-                'connect_timeout' => 20,
-                'headers' => [
-                    'OpenAI-Beta' => 'assistants=v2',
-                ],
-            ]))
-            ->make();
+readonly class AssistantBrain implements BrainInterface {
+    public function __construct(
+        private Client                    $client,
+        private ClientCollectionInterface $clientCollection
+    ) {
     }
 
-    public function createThread(): void {
-        self::$thread = $this->client->threads()->create();
-        print "Thread created with ID: " . self::$thread->id . PHP_EOL;
+    public function init(\App\Application\Websocket\Storage\Client $client): void {
+        $client->add(ThreadResponse::class, $this->client->threads()->create());
+        $this->clientCollection->add($client);
     }
 
-    public function reflection(string $query): string {
-        $this->client->threads()->messages()->create(self::$thread->id, [
+    /**
+     * @throws NotFoundException
+     */
+    public function reflection(\App\Application\Websocket\Storage\Client $client, string $query): string {
+        $assistant = $client->get(Assistant::class);
+
+        if (is_null($assistant)) {
+            throw new NotFoundException('Assistant not found for client: ' . $client->id);
+        }
+
+        $thread = $client->get(ThreadResponse::class);
+
+        $this->client->threads()->messages()->create($thread->id, [
             'role' => 'user',
             'content' => $query,
         ]);
 
-        $run = $this->client->threads()->runs()->create(self::$thread->id, [
-            'assistant_id' => 'asst_6oRFNaNScY1tlmpnzCWqvVD9',
+        $run = $this->client->threads()->runs()->create($thread->id, [
+            'assistant_id' => $assistant->assistant_id,
         ]);
 
         do {
             sleep(1);
-            $runStatus = $this->client->threads()->runs()->retrieve(self::$thread->id, $run->id);
+            $runStatus = $this->client->threads()->runs()->retrieve($thread->id, $run->id);
         } while ($runStatus->status !== 'completed');
 
-        $messages = $this->client->threads()->messages()->list(self::$thread->id, [
+        $messages = $this->client->threads()->messages()->list($thread->id, [
             'run_id' => $run->id,
         ]);
 
@@ -55,13 +57,5 @@ class AssistantBrain implements BrainInterface {
         $message = end($messages);
 
         return $message->content[0]->text->value;
-    }
-
-    public function answer(string $question, string $answer): string {
-        return '';
-    }
-
-    public function reReflection(string $query): string {
-        return '';
     }
 }

@@ -10,6 +10,9 @@ use App\Application\Websocket\Event\OnMessageInterface;
 use App\Application\Websocket\Event\OnWorkerExitInterface;
 use App\Application\Websocket\Storage\Client;
 use App\Application\Websocket\Storage\ClientCollectionInterface;
+use App\Exception\NotFoundException;
+use App\Exception\UnauthorizedException;
+use App\Service\Auth\AuthServiceInterface;
 use App\Service\Client\Send;
 use JsonException;
 use Psr\Container\ContainerExceptionInterface;
@@ -28,12 +31,14 @@ readonly class Application implements ApplicationInterface {
      * @param HydratorInterface $hydrator
      * @param LoggerInterface $logger
      * @param ClientCollectionInterface $collection
+     * @param AuthServiceInterface $authService
      */
     public function __construct(
         private ContainerInterface        $container,
         private HydratorInterface         $hydrator,
         private LoggerInterface           $logger,
-        private ClientCollectionInterface $collection
+        private ClientCollectionInterface $collection,
+        private AuthServiceInterface      $authService
     ) {
     }
 
@@ -44,10 +49,27 @@ readonly class Application implements ApplicationInterface {
     public function onConnect(TcpConnection $tcpConnection): void {
         $container = $this->container;
         $collection = $this->collection;
+        $authService = $this->authService;
 
-        $tcpConnection->onWebSocketConnected = static function (TcpConnection $tcpConnection, Request $request) use ($container, $collection) {
-            $collection->add(new Client(uniqid('', true), $request->header('X-Device'), $tcpConnection));
-            $container->get(OnConnectInterface::class)->handle($tcpConnection);
+        $tcpConnection->onWebSocketConnected = static function (TcpConnection $tcpConnection, Request $request) use ($authService, $container, $collection) {
+            try {
+                $authorized = $authService->verify($request->header('Authorization', ''));
+            } catch (UnauthorizedException) {
+                $tcpConnection->close(['status' => 401, 'message' => 'Unauthorized']);
+                return;
+            }
+
+            $client = new Client(
+                $request->header('X-Client-Id'),
+                $request->header('X-Client-Version'),
+                $request->header('X-Client-Platform'),
+                $request->header('X-Client-Language'),
+                $authorized->id,
+                $tcpConnection
+            );
+
+            $collection->add($client);
+            $container->get(OnConnectInterface::class)->handle($client);
         };
     }
 
@@ -69,7 +91,14 @@ readonly class Application implements ApplicationInterface {
         }
 
         try {
-            $this->container->get(OnMessageInterface::class)->handle($tcpConnection, $this->hydrator->create(Message::class, $payloadArray));
+            $client = $this->collection->get($tcpConnection->id);
+        } catch (NotFoundException $e) {
+            $tcpConnection->close(['status' => 404, 'message' => 'Client not found']);
+            return;
+        }
+
+        try {
+            $this->container->get(OnMessageInterface::class)->handle($client, $this->hydrator->create(Message::class, $payloadArray));
         } catch (Throwable $exception) {
             print $exception->getMessage() . "\n";
             $this->logger->error($exception->getMessage(), [
@@ -80,12 +109,15 @@ readonly class Application implements ApplicationInterface {
     }
 
     /**
+     * @param TcpConnection $tcpConnection
      * @throws ContainerExceptionInterface
+     * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      */
     public function onClose(TcpConnection $tcpConnection): void {
-        $this->collection->remove($tcpConnection->id);
-        $this->container->get(OnCloseInterface::class)->handle($tcpConnection);
+        $client = $this->collection->get($tcpConnection->id);
+        $this->collection->remove($client->id);
+        $this->container->get(OnCloseInterface::class)->handle($client);
     }
 
     /**

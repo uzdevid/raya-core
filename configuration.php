@@ -44,6 +44,7 @@ return [
         ],
         'bootstrap-console' => '$bootstrap',
         'bootstrap-web' => '$bootstrap',
+        'bootstrap-websocket' => '$bootstrap',
         'routes' => [
             'http/routes/*.php',
         ],

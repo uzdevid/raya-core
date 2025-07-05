@@ -4,7 +4,7 @@ namespace App\Application\Websocket\Storage;
 
 use App\Exception\NotFoundException;
 
-class ClientCollection implements ClientCollectionInterface {
+class PhpStorage implements ClientCollectionInterface {
     /**
      * @var array<string, Client>
      */
@@ -14,12 +14,12 @@ class ClientCollection implements ClientCollectionInterface {
      */
     private array $indexedByConnectionId = [];
 
-    private array $indexedByDevice = [];
+    private array $indexedByIdentity = [];
 
     public function add(Client $client): void {
         $this->indexedById[$client->id] = $client;
         $this->indexedByConnectionId[$client->connection->id] = $client;
-        $this->indexedByDevice[$client->device] = $client;
+        $this->indexedByIdentity[$client->identityId] = $client;
     }
 
     /**
@@ -42,12 +42,12 @@ class ClientCollection implements ClientCollectionInterface {
     /**
      * @throws NotFoundException
      */
-    public function getByDevice(string $device): Client {
-        if (isset($this->indexedByDevice[$device])) {
-            return $this->indexedByDevice[$device];
+    public function getByIdentity(string $identityId): Client {
+        if (isset($this->indexedByIdentity[$identityId])) {
+            return $this->indexedByIdentity[$identityId];
         }
 
-        throw new NotFoundException('Client not found for device: ' . $device);
+        throw new NotFoundException('Client not found for identity: ' . $identityId);
     }
 
     public function list(): array {

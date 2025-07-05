@@ -2,11 +2,38 @@
 
 namespace App\Application\Websocket\Event;
 
+use App\Application\Websocket\Storage\Client;
+use App\Event\NewClient;
+use App\Repository\ClientRepositoryInterface;
 use App\Service\Brain\AssistantBrain;
-use Workerman\Connection\TcpConnection;
+use App\Service\Register\RegisterService;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
-class OnConnect implements OnConnectInterface {
-    public function handle(TcpConnection $connection): void {
-        (new AssistantBrain())->createThread();
+readonly class OnConnect implements OnConnectInterface {
+    public function __construct(
+        private EventDispatcherInterface  $dispatcher,
+        private RegisterService           $registerService,
+        private AssistantBrain            $brain,
+        private ClientRepositoryInterface $clientRepository
+    ) {
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function handle(Client $client): void {
+        $this->dispatcher->dispatch(new NewClient($client));
+
+        try {
+            $this->registerService->register($client);
+        } catch (Throwable $e) {
+            $client->connection->close(['error' => 'Server error occurred during registration.']);
+            return;
+        }
+
+        $this->brain->init($client);
+
+        $this->clientRepository->updateOnline($client->id, true);
     }
 }

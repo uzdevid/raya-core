@@ -3,13 +3,13 @@
 namespace App\Application\Websocket\Event;
 
 use App\Application\Websocket\Dto\Message;
-use Workerman\Connection\TcpConnection;
+use App\Application\Websocket\Storage\Client;
 
 interface OnMessageInterface {
     /**
-     * @param TcpConnection $connection
+     * @param Client $client
      * @param Message $payload
      * @return void
      */
-    public function handle(TcpConnection $connection, Message $payload): void;
+    public function handle(Client $client, Message $payload): void;
 }

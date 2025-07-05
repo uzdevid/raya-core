@@ -19,11 +19,11 @@ interface ClientCollectionInterface {
     public function get(string|int $id): Client;
 
     /**
-     * @param string $device
+     * @param string $identityId
      * @return Client
      * @throws NotFoundException
      */
-    public function getByDevice(string $device): Client;
+    public function getByIdentity(string $identityId): Client;
 
     /**
      * @return Client[]

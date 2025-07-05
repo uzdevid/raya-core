@@ -12,14 +12,14 @@ use App\Application\Websocket\Event\OnMessage;
 use App\Application\Websocket\Event\OnMessageInterface;
 use App\Application\Websocket\Event\OnWorkerExit;
 use App\Application\Websocket\Event\OnWorkerExitInterface;
-use App\Application\Websocket\Storage\ClientCollection;
+use App\Application\Websocket\Storage\PhpStorage;
 use App\Application\Websocket\Storage\ClientCollectionInterface;
 use App\Service\Brain\AssistantBrain;
 use App\Service\Brain\BrainInterface;
 
 return [
     ApplicationInterface::class => Application::class,
-    ClientCollectionInterface::class => ClientCollection::class,
+    ClientCollectionInterface::class => PhpStorage::class,
     //
     BrainInterface::class => AssistantBrain::class,
     //

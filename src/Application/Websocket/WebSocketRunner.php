@@ -60,6 +60,9 @@ class WebSocketRunner extends ApplicationRunner {
      * @throws ErrorException
      */
     public function run(): void {
+        $this->runBootstrap();
+        $this->checkEvents();
+
         $worker = new Worker($this->address);
 
         $worker->name = $this->name;

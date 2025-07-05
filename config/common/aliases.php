@@ -15,4 +15,6 @@ return [
     '@vendor' => '@root/vendor',
     '@layout' => '@resources/views/layout',
     '@views' => '@resources/views',
+    //
+    '@instructions' => '@root/src/Instructions',
 ];

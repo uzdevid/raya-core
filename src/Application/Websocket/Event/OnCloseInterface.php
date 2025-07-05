@@ -2,12 +2,12 @@
 
 namespace App\Application\Websocket\Event;
 
-use Workerman\Connection\TcpConnection;
+use App\Application\Websocket\Storage\Client;
 
 interface OnCloseInterface {
     /**
-     * @param TcpConnection $connection
+     * @param Client $client
      * @return void
      */
-    public function handle(TcpConnection $connection): void;
+    public function handle(Client $client): void;
 }

@@ -4,16 +4,16 @@ namespace App\Application\Websocket\Service\Challenge;
 
 use App\Application\Websocket\Dto\Message;
 use App\Application\Websocket\HandlerServiceInterface;
+use App\Application\Websocket\Storage\Client;
 use App\Service\Client\Send;
-use Workerman\Connection\TcpConnection;
 
 class Configuration implements HandlerServiceInterface {
     /**
-     * @param TcpConnection $tcpConnection
+     * @param Client $client
      * @param Message $payload
      */
-    public function handle(TcpConnection $tcpConnection, Message $payload): void {
-        Send::to($tcpConnection)->message('bootstrap:config', [
+    public function handle(Client $client, Message $payload): void {
+        Send::to($client->connection)->message('bootstrap:config', [
             'dispatcher' => [
                 'enabled' => true,
                 'params' => [
