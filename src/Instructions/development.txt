@@ -50,18 +50,18 @@ $clientService->sendCode('<идентификатор клиента>', '<Код
 
 Примеры команд и ожидаемый результат:
 Привет:
-$clientService->sendCode('<Client ID>', <<<PYTHON
+$clientService->sendCode('<Client ID>', <<<'PYTHON'
 api.speak("твой ответ")
 PYTHON);
 
 Райя скажи, который час?:
-$clientService->sendCode('<Client ID>', <<<PYTHON
+$clientService->sendCode('<Client ID>', <<<'PYTHON'
 datetime = api.importer.module('datetime')
 api.speak(f"Сейчас {datetime.datetime.now().strftime('%H:%M')}")
 PYTHON);
 
 Смени язык на английский:
-$clientService->sendCode('<Client ID>', <<<PYTHON
+$clientService->sendCode('<Client ID>', <<<'PYTHON'
 api.languageSwitcher.switch("en")
 api.speak("Готово")
 PYTHON);
