@@ -2,10 +2,10 @@
 
 namespace App\Service\Register;
 
+use App\Exception\ServerErrorException;
 use App\Model\Api;
 use App\Model\Client;
 use App\Repository\ApiRepositoryInterface;
-use RuntimeException;
 use Throwable;
 use Yiisoft\Db\Connection\ConnectionInterface;
 use Yiisoft\Db\Exception\Exception;
@@ -135,7 +135,7 @@ class ApiRegisterService {
             $transaction->commit();
         } catch (Throwable $e) {
             $transaction->rollBack();
-            throw new RuntimeException('Failed to update APIs: ' . $e->getMessage(), 0, $e);
+            throw new ServerErrorException('Failed to update APIs: ' . $e->getMessage(), 0, $e);
         }
     }
 }

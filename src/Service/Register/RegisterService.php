@@ -104,8 +104,12 @@ readonly class RegisterService {
     /**
      * @param Client $client
      * @return Assistant
+     * @throws Exception
+     * @throws InvalidConfigException
      * @throws NotFoundException
+     * @throws NotSupportedException
      * @throws ServerErrorException
+     * @throws Throwable
      */
     private function update(Client $client): Assistant {
         $assistant = $this->assistantRegisterService->getAssistant($client->identityId);
@@ -116,7 +120,7 @@ readonly class RegisterService {
             $clientModel = $this->clientRegisterService->createClient($client, $assistant);
         }
 
-        $this->apiRegisterService->createApis($clientModel);
+        $this->apiRegisterService->updateApis($clientModel);
 
         $instructions = $this->instructionsCollectService->collect(
             $clientModel->version,
