@@ -57,4 +57,28 @@ class ClientDbRepository extends Repository implements ClientRepositoryInterface
         $model->is_online = $isOnline;
         $model->save();
     }
+
+    public function existsById(string $id): bool {
+        try {
+            return $this->scope()->where(['id' => $id])->exists();
+        } catch (Throwable $e) {
+            throw new ServerErrorException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function getById(string $id): Client {
+        try {
+            /** @var Client|null $model */
+            $model = $this->scope()->where(['id' => $id])->one();
+        } catch (Throwable $e) {
+            throw new ServerErrorException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        if (is_null($model)) {
+            throw new NotFoundException('Client not found: ' . $id);
+        }
+
+        return $model;
+
+    }
 }

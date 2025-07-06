@@ -3,11 +3,33 @@
 namespace App\Service\Register;
 
 use App\Application\Websocket\Storage\Client;
+use App\Exception\NotFoundException;
 use App\Exception\ServerErrorException;
 use App\Model\Assistant;
+use App\Repository\ClientRepositoryInterface;
 use Throwable;
 
-class ClientRegisterService {
+readonly class ClientRegisterService {
+    public function __construct(
+        private ClientRepositoryInterface $clientRepository
+    ) {
+    }
+
+    /**
+     * @throws ServerErrorException
+     */
+    public function hasClient(string $id): bool {
+        return $this->clientRepository->existsById($id);
+    }
+
+    /**
+     * @throws ServerErrorException
+     * @throws NotFoundException
+     */
+    public function getClient(string $id): \App\Model\Client {
+        return $this->clientRepository->getById($id);
+    }
+
     /**
      * @param Client $client
      * @param Assistant $assistant

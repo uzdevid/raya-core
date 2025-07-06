@@ -25,8 +25,23 @@ interface ClientRepositoryInterface {
 
     /**
      * @param string $id
+     * @return bool
+     * @throws ServerErrorException
+     */
+    public function existsById(string $id): bool;
+
+    /**
+     * @param string $id
      * @param bool $isOnline
      * @return void
      */
     public function updateOnline(string $id, bool $isOnline): void;
+
+    /**
+     * @param string $id
+     * @return Client
+     * @throws ServerErrorException
+     * @throws NotFoundException
+     */
+    public function getById(string $id): Client;
 }

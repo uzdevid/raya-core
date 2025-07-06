@@ -4,6 +4,13 @@ namespace App\Service\Register;
 
 use App\Model\Api;
 use App\Model\Client;
+use App\Repository\ApiRepositoryInterface;
+use RuntimeException;
+use Throwable;
+use Yiisoft\Db\Connection\ConnectionInterface;
+use Yiisoft\Db\Exception\Exception;
+use Yiisoft\Db\Exception\InvalidConfigException;
+use Yiisoft\Db\Exception\NotSupportedException;
 
 class ApiRegisterService {
     private array $defaultApis = [
@@ -34,6 +41,15 @@ class ApiRegisterService {
                 ],
                 'returns' => 'void',
                 'examples' => ["api.speak(\"Этот текст будет озвучен\")"]
+            ],
+            [
+                'code' => 'api.askInput({query})',
+                'description' => 'При обработке и выполнении команды если у тебя будут нехватка данных например название, пароль, путь или адрес то используй данный метод для получения этих данных',
+                'arguments' => [
+                    'query' => ['type' => 'string', 'description' => 'Текст запроса']
+                ],
+                'returns' => 'string - ответ пользователя на запрос',
+                'examples' => ["password = api.askInput(\"Пожалуйста предоставьте пароль от учетной записи\")", "path = api.askInput(\"Уточните путь к нужной папке\")", "url = api.askInput(\"Укажите URL страницы\")"]
             ],
             [
                 'code' => 'api.languageSwitch({lang})',
@@ -79,6 +95,12 @@ class ApiRegisterService {
         ]
     ];
 
+    public function __construct(
+        private readonly ConnectionInterface    $connection,
+        private readonly ApiRepositoryInterface $apiRepository
+    ) {
+    }
+
     /**
      * @param Client $client
      * @return void
@@ -94,6 +116,26 @@ class ApiRegisterService {
             $apiModel->examples = $api['examples'];
             $apiModel->created_time = date('Y-m-d H:i:s');
             $apiModel->save();
+        }
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @throws Throwable
+     * @throws NotSupportedException
+     * @throws Exception
+     */
+    public function updateApis(Client $client): void {
+        $transaction = $this->connection->createTransaction();
+        $transaction->begin();
+
+        try {
+            $this->apiRepository->deleteByClientId($client->id);
+            $this->createApis($client);
+            $transaction->commit();
+        } catch (Throwable $e) {
+            $transaction->rollBack();
+            throw new RuntimeException('Failed to update APIs: ' . $e->getMessage(), 0, $e);
         }
     }
 }

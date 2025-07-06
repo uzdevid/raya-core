@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use App\Repository\ApiDbRepository;
+use App\Repository\ApiRepositoryInterface;
 use App\Repository\AssistantDbRepository;
 use App\Repository\AssistantRepositoryInterface;
 use App\Repository\ClientDbRepository;
@@ -37,5 +39,6 @@ return [
     ],
     //
     AssistantRepositoryInterface::class => AssistantDbRepository::class,
-    ClientRepositoryInterface::class => ClientDbRepository::class
+    ClientRepositoryInterface::class => ClientDbRepository::class,
+    ApiRepositoryInterface::class => ApiDbRepository::class
 ];
