@@ -4,8 +4,8 @@ use Dotenv\Dotenv;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__, ['.env']);
-$dotenv->load();
+Dotenv::createImmutable(__DIR__, ['secrets.env'])->load();
+Dotenv::createImmutable(__DIR__)->load();
 
 $_ENV['YII_ENV'] = empty($_ENV['YII_ENV']) ? null : $_ENV['YII_ENV'];
 $_SERVER['YII_ENV'] = $_ENV['YII_ENV'];
