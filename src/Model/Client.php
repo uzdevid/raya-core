@@ -32,7 +32,7 @@ class Client extends ActiveRecord {
         return $this->hasMany(Api::class, ['client_id' => 'id']);
     }
 
-    public function getStorageValues(): ActiveQueryInterface {
+    public function getStorageValuesQuery(): ActiveQueryInterface {
         return $this->hasMany(Storage::class, ['client_id' => 'id']);
     }
 }

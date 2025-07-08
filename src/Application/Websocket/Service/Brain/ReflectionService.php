@@ -13,6 +13,7 @@ readonly class ReflectionService implements HandlerServiceInterface {
     /**
      * @param BrainInterface $brain
      * @param ClientService $clientService
+     * @param StorageService $storageService
      */
     public function __construct(
         private BrainInterface $brain,

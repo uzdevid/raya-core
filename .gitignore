@@ -36,3 +36,4 @@ tests/Support/Data/database.db_snapshot
 
 .env
 rr.exe
+workerman.log

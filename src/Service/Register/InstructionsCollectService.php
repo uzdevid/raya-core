@@ -31,7 +31,7 @@ readonly class InstructionsCollectService {
                 }
 
                 $clientApis[] = sprintf(
-                    "%s:%s [%s] - %s (Examples: %s)\n",
+                    "%s:%s [%s] - %s (Examples: %s)",
                     $api->code,
                     $api->returns,
                     implode(" | ", $apiArguments),
@@ -43,14 +43,14 @@ readonly class InstructionsCollectService {
             $storageList = [];
             foreach ($model->storageValues as $storageValue) {
                 $storageList[] = sprintf(
-                    "Key: %s \nDescription: %s\n",
+                    "Key: %s \nDescription: %s",
                     $storageValue->key,
                     $storageValue->description
                 );
             }
 
             $clientsList[] = sprintf(
-                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s\nХранилище: %s\n%s",
+                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s\nХранилище: %s\nAPI: %s",
                 $model->id,
                 $model->platform,
                 $model->language,
