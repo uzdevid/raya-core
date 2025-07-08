@@ -12,20 +12,20 @@ readonly class ClientService {
     }
 
     /**
-     * @param string $identity
+     * @param string $clientId
      * @return Send
      * @throws NotFoundException
      */
-    public function send(string $identity): Send {
-        return Send::to($this->clientCollection->getByIdentity($identity)->connection);
+    public function send(string $clientId): Send {
+        return Send::to($this->clientCollection->get($clientId)->connection);
     }
 
     /**
-     * @param string $identity
+     * @param string $clientId
      * @param string $code
      * @throws NotFoundException
      */
-    public function sendCode(string $identity, string $code): void {
-        $this->send($identity)->message('execute:client', ['code' => $code]);
+    public function sendCode(string $clientId, string $code): void {
+        $this->send($clientId)->message('execute:client', ['code' => $code]);
     }
 }
