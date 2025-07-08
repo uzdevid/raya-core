@@ -27,36 +27,35 @@ readonly class InstructionsCollectService {
             foreach ($model->apis as $api) {
                 $apiArguments = [];
                 foreach ($api->arguments as $name => $params) {
-                    $apiArguments[] = sprintf(
-                        '%s:%s - %s',
-                        $name,
-                        $params['type'],
-                        $params['description']
-                    );
+                    $apiArguments[] = sprintf('%s:%s - %s', $name, $params['type'], $params['description']);
                 }
 
-                $apiExamples = implode(' | ', $api->examples);
-
-                $apiArgumentsString = implode(" | ", $apiArguments);
-
                 $clientApis[] = sprintf(
-                    '%s:%s [%s] - %s (Examples: %s)',
+                    "%s:%s [%s] - %s (Examples: %s)\n",
                     $api->code,
                     $api->returns,
-                    $apiArgumentsString,
+                    implode(" | ", $apiArguments),
                     $api->description,
-                    $apiExamples
+                    implode(' | ', $api->examples)
                 );
             }
 
-            $clientApisString = implode("\n", $clientApis);
+            $storageList = [];
+            foreach ($model->storageValues as $storageValue) {
+                $storageList[] = sprintf(
+                    "Key: %s \nDescription: %s\n",
+                    $storageValue->key,
+                    $storageValue->description
+                );
+            }
 
             $clientsList[] = sprintf(
-                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s\n%s",
+                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s\nХранилище: %s\n%s",
                 $model->id,
                 $model->platform,
                 $model->language,
-                $clientApisString
+                implode("\n", $storageList),
+                implode("\n", $clientApis)
             );
         }
 

@@ -22,6 +22,7 @@ use Yiisoft\ActiveRecord\Trait\MagicRelationsTrait;
  *
  * Relations:
  * @property Api[] $apis
+ * @property Storage[] $storageValues
  **/
 class Client extends ActiveRecord {
     use MagicRelationsTrait;
@@ -29,5 +30,9 @@ class Client extends ActiveRecord {
 
     public function getApisQuery(): ActiveQueryInterface {
         return $this->hasMany(Api::class, ['client_id' => 'id']);
+    }
+
+    public function getStorageValues(): ActiveQueryInterface {
+        return $this->hasMany(Storage::class, ['client_id' => 'id']);
     }
 }
