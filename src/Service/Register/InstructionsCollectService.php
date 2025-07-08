@@ -35,14 +35,17 @@ readonly class InstructionsCollectService {
                     );
                 }
 
+                $apiExamples = implode(' | ', $api->examples);
+
                 $apiArgumentsString = implode(" | ", $apiArguments);
 
                 $clientApis[] = sprintf(
-                    '%s:%s [%s] - %s',
+                    '%s:%s [%s] - %s (Examples: %s)',
                     $api->code,
                     $api->returns,
                     $apiArgumentsString,
-                    $api->description
+                    $api->description,
+                    $apiExamples
                 );
             }
 

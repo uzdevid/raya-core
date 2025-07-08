@@ -17,7 +17,7 @@ use Yiisoft\ActiveRecord\Trait\MagicRelationsTrait;
  * @property string $description
  * @property array<string, array<string, string>> $arguments
  * @property string $returns
- * @property string $examples
+ * @property array $examples
  * @property string $created_time
  **/
 class Api extends ActiveRecord {
