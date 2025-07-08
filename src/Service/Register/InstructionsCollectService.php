@@ -43,14 +43,14 @@ readonly class InstructionsCollectService {
             $storageList = [];
             foreach ($model->storageValues as $storageValue) {
                 $storageList[] = sprintf(
-                    "Key: %s \nDescription: %s",
+                    "Key: %s | Description: %s",
                     $storageValue->key,
                     $storageValue->description
                 );
             }
 
             $clientsList[] = sprintf(
-                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s\nХранилище: %s\nAPI: %s",
+                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s\nХранилище: \n%s\nAPI: \n%s",
                 $model->id,
                 $model->platform,
                 $model->language,
