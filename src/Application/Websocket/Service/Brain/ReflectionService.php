@@ -32,8 +32,6 @@ readonly class ReflectionService implements HandlerServiceInterface {
             $code .= ';';
         }
 
-        print $code . "\n";
-
         eval($code);
     }
 }
