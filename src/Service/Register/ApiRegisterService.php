@@ -92,6 +92,34 @@ class ApiRegisterService {
                 'returns' => 'boolean - true если приложение найдено в списке и закрыто, иначе false',
                 'examples' => ["if not api.appManager.close(\"goland\"): \npass # попробовать найти и закрыть иначе"]
             ],
+            [
+                'code' => 'api.application.audioInputDisable()',
+                'description' => 'Отключает аудио вход для текущего приложения, то есть ты не будешь получать аудио команды от пользователя',
+                'arguments' => [],
+                'returns' => 'void',
+                'examples' => ["api.application.audioInputDisable()"]
+            ],
+            [
+                'code' => 'api.application.audioInputEnable()',
+                'description' => 'Включает аудио вход для текущего приложения, то есть ты будешь получать аудио команды от пользователя',
+                'arguments' => [],
+                'returns' => 'void',
+                'examples' => ["api.application.audioInputEnable()"]
+            ],
+            [
+                'code' => 'api.application.audioOutputDisable()',
+                'description' => 'Отключает аудио выход для текущего приложения, то есть ты не будешь озвучивать текст',
+                'arguments' => [],
+                'returns' => 'void',
+                'examples' => ["api.application.audioOutputDisable()"]
+            ],
+            [
+                'code' => 'api.application.audioOutputEnable()',
+                'description' => 'Включает аудио выход для текущего приложения, то есть ты будешь озвучивать текст',
+                'arguments' => [],
+                'returns' => 'void',
+                'examples' => ["api.application.audioOutputEnable()"]
+            ],
         ]
     ];
 
