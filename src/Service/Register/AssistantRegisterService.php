@@ -42,6 +42,7 @@ readonly class AssistantRegisterService {
         $assistant->id = $identityId;
         $assistant->owner_id = $identityId;
         $assistant->assistant_id = 'asst_6oRFNaNScY1tlmpnzCWqvVD9'; // Temporary, should be updated after creation in the openai
+        $assistant->thread_id = 'thread_NQDQF9G9ey5HXvah9h3WpJ7a'; // Temporary, should be updated after creation in the openai
         $assistant->name = 'Raya';
         $assistant->language = 'ru';
         $assistant->instructions = 'default'; // Placeholder, should be updated with actual instructions

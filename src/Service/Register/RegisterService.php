@@ -39,7 +39,7 @@ readonly class RegisterService {
         if (!$this->assistantRegisterService->hasAssistant($client->identityId)) {
             $assistant = $this->create($client);
         } else {
-            $assistant = $this->update($client);
+            $assistant = $this->assistantRegisterService->getAssistant($client->identityId);
         }
 
         $client->add(Assistant::class, $assistant);
@@ -86,7 +86,10 @@ readonly class RegisterService {
             'instructions' => $instructions,
         ]);
 
+        $thread = $this->client->threads()->create();
+
         $assistant->assistant_id = $assistantResponse->id;
+        $assistant->thread_id = $thread->id;
         $assistant->instructions = $instructions;
 
         try {
@@ -128,16 +131,23 @@ readonly class RegisterService {
             $this->clientRepository->list($assistant->id)
         );
 
-        $assistantResponse = $this->client->assistants()->modify($assistant->assistant_id, [
+        $this->client->assistants()->modify($assistant->assistant_id, [
             'name' => sprintf('%s (%s)', $assistant->name, $assistant->id),
             'model' => 'gpt-4.1',
             'description' => 'Assistant for ' . $client->identityId,
             'instructions' => $instructions,
         ]);
 
+        $oldThreadId = $assistant->thread_id;
+
+        $thread = $this->client->threads()->create();
+
         $assistant->instructions = $instructions;
+        $assistant->thread_id = $thread->id;
 
         $this->assistantRegisterService->save($assistant);
+
+        $this->client->threads()->delete($oldThreadId);
 
         return $assistant;
     }

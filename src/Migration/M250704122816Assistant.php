@@ -24,9 +24,11 @@ final class M250704122816Assistant implements RevertibleMigrationInterface, Tran
             'id' => ColumnBuilder::uuidPrimaryKey(),
 
             'owner_id' => ColumnBuilder::uuid()->notNull(), // Reference to the owner of the assistant
-            'assistant_id' => ColumnBuilder::char(29)->notNull(), // Unique identifier for the assistant
 
-            'name' => ColumnBuilder::string(255)->notNull(), // Name of the assistant
+            'assistant_id' => ColumnBuilder::char(29)->notNull(), // Unique identifier for the assistant
+            'thread_id' => ColumnBuilder::char(31)->notNull(), // Identifier for the thread associated with the assistant
+
+            'name' => ColumnBuilder::string(16)->notNull(), // Name of the assistant
             'language' => ColumnBuilder::string(10)->notNull(), // Language of the assistant, e.g., 'en', 'ru', 'fr'
 
             'instructions' => ColumnBuilder::text()->notNull(), // Base instructions and rules for the assistant

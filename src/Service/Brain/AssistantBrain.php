@@ -2,23 +2,20 @@
 
 namespace App\Service\Brain;
 
-use App\Application\Websocket\Storage\ClientCollectionInterface;
 use App\Exception\NotFoundException;
 use App\Model\Assistant;
 use OpenAI\Client;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
-use OpenAI\Responses\Threads\ThreadResponse;
 
 readonly class AssistantBrain implements BrainInterface {
     public function __construct(
-        private Client                    $client,
-        private ClientCollectionInterface $clientCollection
+        private Client $client
     ) {
     }
 
     public function init(\App\Application\Websocket\Storage\Client $client): void {
-        $client->add(ThreadResponse::class, $this->client->threads()->create());
-        $this->clientCollection->add($client);
+        //        $client->add(ThreadResponse::class, $this->client->threads()->create());
+        //        $this->clientCollection->add($client);
     }
 
     /**
@@ -31,23 +28,23 @@ readonly class AssistantBrain implements BrainInterface {
             throw new NotFoundException('Assistant not found for client: ' . $client->id);
         }
 
-        $thread = $client->get(ThreadResponse::class);
+        $threadId = $assistant->thread_id;
 
-        $this->client->threads()->messages()->create($thread->id, [
+        $this->client->threads()->messages()->create($threadId, [
             'role' => 'user',
             'content' => $query,
         ]);
 
-        $run = $this->client->threads()->runs()->create($thread->id, [
+        $run = $this->client->threads()->runs()->create($threadId, [
             'assistant_id' => $assistant->assistant_id,
         ]);
 
         do {
             sleep(1);
-            $runStatus = $this->client->threads()->runs()->retrieve($thread->id, $run->id);
+            $runStatus = $this->client->threads()->runs()->retrieve($threadId, $run->id);
         } while ($runStatus->status !== 'completed');
 
-        $messages = $this->client->threads()->messages()->list($thread->id, [
+        $messages = $this->client->threads()->messages()->list($threadId, [
             'run_id' => $run->id,
         ]);
 
