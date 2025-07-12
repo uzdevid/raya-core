@@ -39,7 +39,7 @@ readonly class RegisterService {
         if (!$this->assistantRegisterService->hasAssistant($client->identityId)) {
             $assistant = $this->create($client);
         } else {
-            $assistant = $this->assistantRegisterService->getAssistant($client->identityId);
+            $assistant = $this->update($client);
         }
 
         $client->add(Assistant::class, $assistant);
