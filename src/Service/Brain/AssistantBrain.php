@@ -5,7 +5,6 @@ namespace App\Service\Brain;
 use App\Exception\NotFoundException;
 use App\Model\Assistant;
 use OpenAI\Client;
-use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 
 readonly class AssistantBrain implements BrainInterface {
     public function __construct(
@@ -40,19 +39,19 @@ readonly class AssistantBrain implements BrainInterface {
         ]);
 
         do {
-            sleep(1);
+            usleep(250_000);
             $runStatus = $this->client->threads()->runs()->retrieve($threadId, $run->id);
         } while ($runStatus->status !== 'completed');
 
+        // ~ 1 second
         $messages = $this->client->threads()->messages()->list($threadId, [
             'run_id' => $run->id,
+            'limit' => 1,
+            'order' => 'desc',
         ]);
 
         $messages = $messages->data;
 
-        /** @var ThreadMessageResponse $message */
-        $message = end($messages);
-
-        return $message->content[0]->text->value;
+        return $messages[0]->content[0]->text->value;
     }
 }

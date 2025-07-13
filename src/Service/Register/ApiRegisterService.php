@@ -26,30 +26,30 @@ class ApiRegisterService {
             ],
             [
                 'code' => 'api.print({text})',
-                'description' => 'Чтобы вывести большой текст вместо озвучки. Например, лог или разноязычные данные которые невозможно озвучить',
+                'description' => 'Вывод текста',
                 'arguments' => [
-                    'text' => ['type' => 'string', 'description' => 'текст который нужно вывести']
+                    'text' => ['type' => 'string', 'description' => 'текст']
                 ],
                 'returns' => 'void',
-                'examples' => ["api.print(\"Этот текст будет выведен\")"]
+                'examples' => ["api.print(\"текст\")"]
             ],
             [
                 'code' => 'api.speak({text})',
-                'description' => 'озвучка текста результата',
+                'description' => 'озвучка и вывод текста',
                 'arguments' => [
-                    'text' => ['type' => 'string', 'description' => 'текст который нужно озвучить']
+                    'text' => ['type' => 'string', 'description' => 'текст']
                 ],
                 'returns' => 'void',
-                'examples' => ["api.speak(\"Этот текст будет озвучен\")"]
+                'examples' => ["api.speak(\"текст\")"]
             ],
             [
                 'code' => 'api.askInput({query})',
-                'description' => 'При обработке и выполнении команды если у тебя будут нехватка данных например название, пароль, путь или адрес то используй данный метод для получения этих данных',
+                'description' => 'Получить точные данные от пользователя',
                 'arguments' => [
                     'query' => ['type' => 'string', 'description' => 'Текст запроса']
                 ],
                 'returns' => 'string - ответ пользователя на запрос',
-                'examples' => ["password = api.askInput(\"Пожалуйста предоставьте пароль от учетной записи\")", "path = api.askInput(\"Уточните путь к нужной папке\")", "url = api.askInput(\"Укажите URL страницы\")"]
+                'examples' => ["url = api.askInput(\"Укажите URL страницы\")"]
             ],
             [
                 'code' => 'api.languageSwitch({lang})',
@@ -58,64 +58,64 @@ class ApiRegisterService {
                     'lang' => ['type' => 'string', 'description' => 'Код языка. Например: ru, en, uz']
                 ],
                 'returns' => 'void',
-                'examples' => ["api.languageSwitch(\"ru\")", "api.languageSwitch(\"en\")"]
+                'examples' => ["api.languageSwitch(\"en\")"]
             ],
             [
                 'code' => 'api.activeWindow.getSelectedText()',
-                'description' => 'Возвращает выделенный текст в активном окне',
+                'description' => 'Возвращает выделенный текст',
                 'arguments' => [],
-                'returns' => 'string - выделенный текст',
+                'returns' => 'string - текст',
                 'examples' => ["selected_text = api.activeWindow.getSelectedText()"]
             ],
             [
                 'code' => 'api.clipboard.getContent()',
-                'description' => 'Возвращает содержимое буфера обмена',
+                'description' => 'Возвращает буфера',
                 'arguments' => [],
-                'returns' => 'string - содержимое буфера обмена',
+                'returns' => 'string - буфера',
                 'examples' => ["clipboard_content = api.clipboard.getContent()"]
             ],
             [
                 'code' => 'api.appManager.run({app_name})',
-                'description' => 'Запускает приложение по его имени из списка пользовательских приложений',
+                'description' => 'Запускает приложение',
                 'arguments' => [
-                    'app_name' => ['type' => 'string', 'description' => 'Имя приложения, которое нужно запустить']
+                    'app_name' => ['type' => 'string', 'description' => 'Имя приложения']
                 ],
                 'returns' => 'boolean - true если приложение найдено в списке и запущено, иначе false, то есть нужно попробовать по другому запустить',
                 'examples' => ["if not api.appManager.run(\"goland\"): \npass # попробовать найти и запустить иначе"]
             ],
             [
                 'code' => 'api.appManager.close({app_name})',
-                'description' => 'Закрывает приложение по его имени из списка пользовательских приложений',
+                'description' => 'Закрывает приложение',
                 'arguments' => [
-                    'app_name' => ['type' => 'string', 'description' => 'Имя приложения, которое нужно закрыть']
+                    'app_name' => ['type' => 'string', 'description' => 'Имя приложения']
                 ],
                 'returns' => 'boolean - true если приложение найдено в списке и закрыто, иначе false',
                 'examples' => ["if not api.appManager.close(\"goland\"): \npass # попробовать найти и закрыть иначе"]
             ],
             [
                 'code' => 'api.application.audioInputDisable()',
-                'description' => 'Отключает аудио вход для текущего приложения, то есть ты не будешь получать аудио команды от пользователя',
+                'description' => 'Отключает аудио вход',
                 'arguments' => [],
                 'returns' => 'void',
                 'examples' => ["api.application.audioInputDisable()"]
             ],
             [
                 'code' => 'api.application.audioInputEnable()',
-                'description' => 'Включает аудио вход для текущего приложения, то есть ты будешь получать аудио команды от пользователя',
+                'description' => 'Включает аудио вход',
                 'arguments' => [],
                 'returns' => 'void',
                 'examples' => ["api.application.audioInputEnable()"]
             ],
             [
                 'code' => 'api.application.audioOutputDisable()',
-                'description' => 'Отключает аудио выход для текущего приложения, то есть ты не будешь озвучивать текст',
+                'description' => 'Отключает аудио выход',
                 'arguments' => [],
                 'returns' => 'void',
                 'examples' => ["api.application.audioOutputDisable()"]
             ],
             [
                 'code' => 'api.application.audioOutputEnable()',
-                'description' => 'Включает аудио выход для текущего приложения, то есть ты будешь озвучивать текст',
+                'description' => 'Включает аудио выход',
                 'arguments' => [],
                 'returns' => 'void',
                 'examples' => ["api.application.audioOutputEnable()"]
