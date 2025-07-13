@@ -52,6 +52,10 @@ readonly class AssistantBrain implements BrainInterface {
 
         $messages = $messages->data;
 
-        return $messages[0]->content[0]->text->value;
+        $message = $messages[0];
+
+        $this->client->threads()->messages()->delete($threadId, $message->id);
+        
+        return $message->content[0]->text->value;
     }
 }
