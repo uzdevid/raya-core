@@ -81,7 +81,7 @@ readonly class RegisterService {
 
         $assistantResponse = $this->client->assistants()->create([
             'name' => sprintf('%s (%s)', $assistant->name, $assistant->id),
-            'model' => 'gpt-4.1-mini',
+            'model' => $assistant->model,
             'description' => 'Assistant for ' . $client->identityId,
             'instructions' => $instructions,
         ]);
@@ -133,7 +133,7 @@ readonly class RegisterService {
 
         $this->client->assistants()->modify($assistant->assistant_id, [
             'name' => sprintf('%s (%s)', $assistant->name, $assistant->id),
-            'model' => 'gpt-4.1-mini',
+            'model' => $assistant->model,
             'description' => 'Assistant for ' . $client->identityId,
             'instructions' => $instructions,
         ]);

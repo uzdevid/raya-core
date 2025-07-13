@@ -17,6 +17,7 @@ use Yiisoft\ActiveRecord\Trait\MagicRelationsTrait;
  * @property string $thread_id
  * @property string $name
  * @property string $language
+ * @property string $model
  * @property string $instructions
  * @property string $created_time
  **/
