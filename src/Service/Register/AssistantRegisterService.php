@@ -45,7 +45,7 @@ readonly class AssistantRegisterService {
         $assistant->thread_id = 'thread_NQDQF9G9ey5HXvah9h3WpJ7a'; // Temporary, should be updated after creation in the openai
         $assistant->name = 'Raya';
         $assistant->language = 'ru';
-        $assistant->model = 'gpt-4.1-nano';
+        $assistant->model = 'gpt-4.1-mini';
         $assistant->instructions = 'default'; // Placeholder, should be updated with actual instructions
         $assistant->created_time = date('Y-m-d H:i:s');
 
