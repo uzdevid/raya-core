@@ -16,109 +16,91 @@ class ApiRegisterService {
     private array $defaultApis = [
         'python' => [
             [
-                'code' => 'api.importer.module({name})',
-                'description' => 'импорт модуля, возвращает модуль. Не используй import.',
+                'code' => 'api.imp({name})',
+                'description' => 'импорт модуля. Не используй import.',
                 'arguments' => [
-                    'name' => ['type' => 'string', 'description' => 'название модуля который нужно импортировать']
+                    'name' => ['type' => 'string', 'description' => 'название модуля']
                 ],
-                'returns' => 'подключенный модуль',
-                'examples' => ["os = api.importer.module(\"os\")", "now = api.importer.module(\"time\").time"]
+                'returns' => 'модуль',
+                'examples' => ["os = api.imp(\"os\")"]
             ],
             [
-                'code' => 'api.print({text})',
-                'description' => 'Вывод текста',
-                'arguments' => [
-                    'text' => ['type' => 'string', 'description' => 'текст']
-                ],
-                'returns' => 'void',
-                'examples' => ["api.print(\"текст\")"]
-            ],
-            [
-                'code' => 'api.speak({text})',
-                'description' => 'озвучка и вывод текста',
+                'code' => 'api.prnt({text})',
+                'description' => 'Вывод',
                 'arguments' => [
                     'text' => ['type' => 'string', 'description' => 'текст']
                 ],
                 'returns' => 'void',
-                'examples' => ["api.speak(\"текст\")"]
+                'examples' => ["api.prnt(\"текст\")"]
             ],
             [
-                'code' => 'api.askInput({query})',
+                'code' => 'api.spk({text})',
+                'description' => 'озвучка и вывод',
+                'arguments' => [
+                    'text' => ['type' => 'string', 'description' => 'текст']
+                ],
+                'returns' => 'void',
+                'examples' => ["api.spk(\"текст\")"]
+            ],
+            [
+                'code' => 'api.ask({query})',
                 'description' => 'Получить точные данные от пользователя',
                 'arguments' => [
-                    'query' => ['type' => 'string', 'description' => 'Текст запроса']
+                    'query' => ['type' => 'string', 'description' => 'Запрос']
                 ],
                 'returns' => 'string - ответ пользователя на запрос',
-                'examples' => ["url = api.askInput(\"Укажите URL страницы\")"]
+                'examples' => ["url = api.ask(\"Укажи URL страницы\")"]
             ],
             [
-                'code' => 'api.languageSwitch({lang})',
-                'description' => 'Для переключения языка клавиатуры',
+                'code' => 'api.langSwitch({lang})',
+                'description' => 'переключения языка',
                 'arguments' => [
-                    'lang' => ['type' => 'string', 'description' => 'Код языка. Например: ru, en, uz']
+                    'lang' => ['type' => 'string', 'description' => 'Код языка: ru, en, uz']
                 ],
                 'returns' => 'void',
-                'examples' => ["api.languageSwitch(\"en\")"]
+                'examples' => ["api.langSwitch(\"en\")"]
             ],
             [
-                'code' => 'api.activeWindow.getSelectedText()',
+                'code' => 'api.aw.getSelectedText()',
                 'description' => 'Возвращает выделенный текст',
                 'arguments' => [],
                 'returns' => 'string - текст',
-                'examples' => ["selected_text = api.activeWindow.getSelectedText()"]
+                'examples' => ["selected_text = api.aw.getSelectedText()"]
             ],
             [
-                'code' => 'api.clipboard.getContent()',
+                'code' => 'api.clp.get()',
                 'description' => 'Возвращает буфера',
                 'arguments' => [],
                 'returns' => 'string - буфера',
-                'examples' => ["clipboard_content = api.clipboard.getContent()"]
+                'examples' => ["clipboard_content = api.clp.get()"]
             ],
             [
-                'code' => 'api.appManager.run({app_name})',
-                'description' => 'Запускает приложение',
-                'arguments' => [
-                    'app_name' => ['type' => 'string', 'description' => 'Имя приложения']
-                ],
-                'returns' => 'boolean - true если приложение найдено в списке и запущено, иначе false, то есть нужно попробовать по другому запустить',
-                'examples' => ["if not api.appManager.run(\"goland\"): \npass # попробовать найти и запустить иначе"]
-            ],
-            [
-                'code' => 'api.appManager.close({app_name})',
-                'description' => 'Закрывает приложение',
-                'arguments' => [
-                    'app_name' => ['type' => 'string', 'description' => 'Имя приложения']
-                ],
-                'returns' => 'boolean - true если приложение найдено в списке и закрыто, иначе false',
-                'examples' => ["if not api.appManager.close(\"goland\"): \npass # попробовать найти и закрыть иначе"]
-            ],
-            [
-                'code' => 'api.application.audioInputDisable()',
+                'code' => 'api.app.aInpDis()',
                 'description' => 'Отключает аудио вход',
                 'arguments' => [],
                 'returns' => 'void',
-                'examples' => ["api.application.audioInputDisable()"]
+                'examples' => ["api.app.aInpDis()"]
             ],
             [
-                'code' => 'api.application.audioInputEnable()',
+                'code' => 'api.app.aInpEn()',
                 'description' => 'Включает аудио вход',
                 'arguments' => [],
                 'returns' => 'void',
-                'examples' => ["api.application.audioInputEnable()"]
+                'examples' => ["api.app.aInpEn()"]
             ],
             [
-                'code' => 'api.application.audioOutputDisable()',
+                'code' => 'api.app.aOutDis()',
                 'description' => 'Отключает аудио выход',
                 'arguments' => [],
                 'returns' => 'void',
-                'examples' => ["api.application.audioOutputDisable()"]
+                'examples' => ["api.app.aOutDis()"]
             ],
             [
-                'code' => 'api.application.audioOutputEnable()',
+                'code' => 'api.app.aOutEn()',
                 'description' => 'Включает аудио выход',
                 'arguments' => [],
                 'returns' => 'void',
-                'examples' => ["api.application.audioOutputEnable()"]
+                'examples' => ["api.app.aOutEn()"]
             ],
         ]
     ];
