@@ -17,7 +17,7 @@ class ApiRegisterService {
         'python' => [
             [
                 'code' => 'api.imp({name})',
-                'description' => 'импорт модуля. Не используй import.',
+                'description' => 'импорт модуля. Не используй import. не используй import',
                 'arguments' => [
                     'name' => ['type' => 'string', 'description' => 'название модуля']
                 ],
