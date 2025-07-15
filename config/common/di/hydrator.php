@@ -26,7 +26,7 @@ return [
         return OpenAI::factory()->withHttpClient(new GuzzleClient([
             'proxy' => "http://gMeB2Z:6oKXGG@45.4.199.73:8000",
             'timeout' => 30,
-            'connect_timeout' => 2,
+            'connect_timeout' => 10,
             'headers' => ['OpenAI-Beta' => 'assistants=v2'],
         ]))->withApiKey($_ENV['OPENAI_API_KEY'])->make();
     },
