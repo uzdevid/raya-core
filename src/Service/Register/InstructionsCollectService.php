@@ -19,7 +19,7 @@ readonly class InstructionsCollectService {
      * @return string
      */
     public function collect(string $version, Assistant $assistant, array $clients): string {
-        $template = $this->importTemplate($version);
+        $template = "{clients}";// $this->importTemplate($version);
 
         $clientsList = [];
         foreach ($clients as $model) {
