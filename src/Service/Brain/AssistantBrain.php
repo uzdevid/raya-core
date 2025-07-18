@@ -31,7 +31,7 @@ readonly class AssistantBrain implements BrainInterface {
 
         $this->client->threads()->messages()->create($threadId, [
             'role' => 'user',
-            'content' => $query,
+            'content' => sprintf("From: %s;\nMessage:%s", $client->id, $query),
         ]);
 
         $run = $this->client->threads()->runs()->create($threadId, [
@@ -55,7 +55,7 @@ readonly class AssistantBrain implements BrainInterface {
         $message = $messages[0];
 
         $this->client->threads()->messages()->delete($threadId, $message->id);
-        
+
         return $message->content[0]->text->value;
     }
 }
