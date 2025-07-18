@@ -31,7 +31,7 @@ final class M250704122816Assistant implements RevertibleMigrationInterface, Tran
             'name' => ColumnBuilder::string(16)->notNull(), // Name of the assistant
             'language' => ColumnBuilder::string(10)->notNull(), // Language of the assistant, e.g., 'en', 'ru', 'fr'
 
-            'model' => ColumnBuilder::string(32)->notNull(),
+            'model' => ColumnBuilder::string(128)->notNull(),
 
             'instructions' => ColumnBuilder::text()->notNull(), // Base instructions and rules for the assistant
 
