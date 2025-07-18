@@ -39,7 +39,7 @@ readonly class AssistantBrain implements BrainInterface {
         ]);
 
         do {
-            usleep(250_000);
+            sleep(1);
             $runStatus = $this->client->threads()->runs()->retrieve($threadId, $run->id);
         } while ($runStatus->status !== 'completed');
 
