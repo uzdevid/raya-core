@@ -50,12 +50,12 @@ readonly class InstructionsCollectService {
             }
 
             $clientsList[] = sprintf(
-                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s\nХранилище: \n%s\nAPI: \n%s",
+                "Клиент ID: %s \nПлатформа: %s \nЯзык программирования: %s",
                 $model->id,
                 $model->platform,
                 $model->language,
-                implode("\n", $storageList),
-                implode("\n", $clientApis)
+//                implode("\n", $storageList),
+//                implode("\n", $clientApis)
             );
         }
 
