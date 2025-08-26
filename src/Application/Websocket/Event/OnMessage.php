@@ -36,6 +36,7 @@ readonly class OnMessage implements OnMessageInterface {
             return;
         }
 
+        print_r($payload);
         $handlerService->handle($client, $payload);
     }
 }
