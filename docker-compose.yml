@@ -12,10 +12,10 @@ services:
       - "8100:8080"
     networks:
       - monitoring
-      - vaultnet
+      - vault-net
 
 networks:
   monitoring:
     external: true
-  vaultnet:
+  vault-net:
     external: true
