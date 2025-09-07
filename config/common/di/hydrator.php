@@ -34,7 +34,7 @@ return [
     AuthServiceInterface::class => [
         'class' => JwtAuthService::class,
         '__construct()' => [
-            'key' => 'RAYA:wN4Vw$kc0B1'
+            'key' => 'wN4Vw$kc0B1'
         ]
     ],
     //
