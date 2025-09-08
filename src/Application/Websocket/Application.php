@@ -60,6 +60,7 @@ readonly class Application implements ApplicationInterface {
             try {
                 $authorized = $authService->verify($request->header('Authorization', ''));
             } catch (UnauthorizedException) {
+                print_r("Unauthorized connection: " . $tcpConnection->id . "\n");
                 $tcpConnection->close(['status' => 401, 'message' => 'Unauthorized']);
                 return;
             }
