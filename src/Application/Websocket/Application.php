@@ -100,7 +100,6 @@ readonly class Application implements ApplicationInterface {
         try {
             $this->container->get(OnMessageInterface::class)->handle($client, $this->hydrator->create(Message::class, $payloadArray));
         } catch (Throwable $exception) {
-            print $exception->getMessage() . "\n";
             $this->logger->error($exception->getMessage(), [
                 'payload' => $payloadArray,
                 'exception' => $exception,
@@ -111,11 +110,15 @@ readonly class Application implements ApplicationInterface {
     /**
      * @param TcpConnection $tcpConnection
      * @throws ContainerExceptionInterface
-     * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      */
     public function onClose(TcpConnection $tcpConnection): void {
-        $client = $this->collection->get($tcpConnection->id);
+        try {
+            $client = $this->collection->get($tcpConnection->id);
+        } catch (NotFoundException $e) {
+            print_r("Client not found on close: " . $tcpConnection->id . "\n");
+            return;
+        }
         $this->collection->remove($client->id);
         $this->container->get(OnCloseInterface::class)->handle($client);
     }

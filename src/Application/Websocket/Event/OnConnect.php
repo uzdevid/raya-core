@@ -28,7 +28,6 @@ readonly class OnConnect implements OnConnectInterface {
         try {
             $this->registerService->register($client);
         } catch (Throwable $e) {
-            print_r($e->getMessage());
             $client->connection->close(['error' => 'Server error occurred during registration.']);
             return;
         }

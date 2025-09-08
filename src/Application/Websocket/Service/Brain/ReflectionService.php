@@ -28,6 +28,8 @@ readonly class ReflectionService implements HandlerServiceInterface {
 
         $code = $this->brain->reflection($client, $payload->payload['query']);
 
+        print_r($code);
+
         if (!str_ends_with($code, ';')) {
             $code .= ';';
         }
