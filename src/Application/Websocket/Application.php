@@ -73,8 +73,8 @@ readonly class Application implements ApplicationInterface {
                 $tcpConnection
             );
 
-            print_r("Client connected: " . $client->id . "\n");
-            print_r($client);
+            print_r("Client connected: " . $client->id . "\n" . "Identity: " . $client->identityId . "\n");
+            print_r("Version: " . $client->version . "\n" . "Platform: " . $client->platform . "\n" . "Language: " . $client->language . "\n");
             echo "-------------------------\n";
 
             $collection->add($client);
