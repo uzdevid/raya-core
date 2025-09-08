@@ -52,6 +52,11 @@ readonly class Application implements ApplicationInterface {
         $authService = $this->authService;
 
         $tcpConnection->onWebSocketConnected = static function (TcpConnection $tcpConnection, Request $request) use ($authService, $container, $collection) {
+            print_r('New connection: ' . $tcpConnection->id . "\n");
+            print_r("RemoteIP:" . $tcpConnection->getRemoteIp() . "\n");
+            print_r("Remote Address:" . $tcpConnection->getRemoteAddress() . "\n");
+            echo "-------------------------\n";
+
             try {
                 $authorized = $authService->verify($request->header('Authorization', ''));
             } catch (UnauthorizedException) {
@@ -67,6 +72,10 @@ readonly class Application implements ApplicationInterface {
                 $authorized->id,
                 $tcpConnection
             );
+
+            print_r("Client connected: " . $client->id . "\n");
+            print_r($client);
+            echo "-------------------------\n";
 
             $collection->add($client);
             $container->get(OnConnectInterface::class)->handle($client);
