@@ -71,7 +71,7 @@ readonly class RegisterService {
             throw $e;
         }
 
-        $this->apiRegisterService->createApis($clientModel);
+//        $this->apiRegisterService->createApis($clientModel);
 
         $instructions = $this->instructionsCollectService->collect(
             $clientModel->version,
@@ -123,7 +123,7 @@ readonly class RegisterService {
             $clientModel = $this->clientRegisterService->createClient($client, $assistant);
         }
 
-        $this->apiRegisterService->updateApis($clientModel);
+//        $this->apiRegisterService->updateApis($clientModel);
 
         $instructions = $this->instructionsCollectService->collect(
             $clientModel->version,
